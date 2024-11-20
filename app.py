@@ -4,76 +4,70 @@ from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
-# Welcome endpoint
 @app.route('/api/list', methods=['GET'])
 def list_api():
-    # Welcome message if no params are provided
     letter = request.args.get('letter')
     page = request.args.get('page')
     
     if not letter or not page:
         return jsonify({"message": "Welcome to the API! Use parameters 'letter' and 'page' to scrape data."})
     
-    # Build the target URL
     target_url = f"https://hianime.to/az-list/{letter}?page={page}"
     
     try:
-        # Send a GET request to the target URL
+        # Send HTTP request
         response = requests.get(target_url)
-        response.raise_for_status()  # Raise an exception for HTTP errors
         
-        # Parse the HTML contentSoup(response.text, 'html.parser')
+        if response.status_code != 200:
+            return jsonify({"error": f"Failed to fetch data from {target_url}. Status code: {response.status_code}"}), 500
+        
+        if not response.text.strip():
+            return jsonify({"error": "The target page returned no content."}), 500
+        
+        # Parse the HTML
+        soup = BeautifulSoup(response.text, 'html.parser')  # Ensure soup is defined
         
         # Extract the required data
         films = []
-        film_elements = soup.find_all('div', class_='film-poster')  # Locate each film block
-
+        film_elements = soup.find_all('div', class_='film-poster')
+        
         for film in film_elements:
-            # Film poster and details
             poster_img = film.find('img', class_='film-poster-img').get('data-src', '').strip()
-            film_title = film.find('a', class_='film-poster-ahref').get('title', '').strip()
+            film_title = filmfilm-poster-ahref').get('title', '').strip()
             film_url = film.find('a', class_='film-poster-ahref').get('href', '').strip()
+            film_id = film_url.split('/')[-1]
             
-            # Extracting the film ID
-            film_id = film_url.split('/')[-1]  # Get the last component of the URL as ID
-            
-            # Additional film information
             detail_section = film.find_next('div', class_='film-detail')
             film_name = detail_section.find('h3', class_='film-name').get_text(strip=True)
             film_type = detail_section.find('span', class_='fdi-item').get_text(strip=True)
             duration = detail_section.find('span', class_='fdi-duration').get_text(strip=True)
             
-            # Extract rating
             rating = film.find('div', class_='tick-rate')
             rating_text = rating.get_text(strip=True) if rating else "N/A"
             
-            # Extract episode counts
             sub_episodes = film.find('div', class_='tick-item tick-sub')
             sub_episodes_count = sub_episodes.get_text(strip=True) if sub_episodes else "0"
             
             dub_episodes = film.find('div', class_='tick-item tick-dub')
             dub_episodes_count = dub_episodes.get_text(strip=True) if dub_episodes else "0"
             
-            # Append the data to the list
             films.append({
                 "title": film_title,
                 "url": film_url,
                 "poster": poster_img,
-                "id": film_id,  # Added the film ID
+                "id": film_id,
                 "name": film_name,
                 "type": film_type,
                 "duration": duration,
-                "rating": rating_text,  # Added the rating
-                "sub_episodes": sub_episodes_count,  # Added sub episode count
-                "dub_episodes": dub_episodes_count  # Added dub episode count
+                "rating": rating_text,
+                "sub_episodes": sub_episodes_count,
+                "dub_episodes": dub_episodes_count
             })
         
-        # Return the scraped data as JSON
-        return jsonify({"data": films})
+        return films})
     
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
+        return jsonify({"error": f"An error occurred: {str(e)}"}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
