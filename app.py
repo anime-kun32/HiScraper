@@ -22,8 +22,7 @@ def list_api():
         response = requests.get(target_url)
         response.raise_for_status()  # Raise an exception for HTTP errors
         
-        # Parse the HTML content
-        soup = BeautifulSoup(response.text, 'html.parser')
+        # Parse the HTML contentSoup(response.text, 'html.parser')
         
         # Extract the required data
         films = []
@@ -43,7 +42,18 @@ def list_api():
             film_name = detail_section.find('h3', class_='film-name').get_text(strip=True)
             film_type = detail_section.find('span', class_='fdi-item').get_text(strip=True)
             duration = detail_section.find('span', class_='fdi-duration').get_text(strip=True)
-
+            
+            # Extract rating
+            rating = film.find('div', class_='tick-rate')
+            rating_text = rating.get_text(strip=True) if rating else "N/A"
+            
+            # Extract episode counts
+            sub_episodes = film.find('div', class_='tick-item tick-sub')
+            sub_episodes_count = sub_episodes.get_text(strip=True) if sub_episodes else "0"
+            
+            dub_episodes = film.find('div', class_='tick-item tick-dub')
+            dub_episodes_count = dub_episodes.get_text(strip=True) if dub_episodes else "0"
+            
             # Append the data to the list
             films.append({
                 "title": film_title,
@@ -53,6 +63,9 @@ def list_api():
                 "name": film_name,
                 "type": film_type,
                 "duration": duration,
+                "rating": rating_text,  # Added the rating
+                "sub_episodes": sub_episodes_count,  # Added sub episode count
+                "dub_episodes": dub_episodes_count  # Added dub episode count
             })
         
         # Return the scraped data as JSON
@@ -64,4 +77,3 @@ def list_api():
 
 if __name__ == '__main__':
     app.run(debug=True)
-        
