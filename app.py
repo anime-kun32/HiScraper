@@ -35,6 +35,9 @@ def list_api():
             film_title = film.find('a', class_='film-poster-ahref').get('title', '').strip()
             film_url = film.find('a', class_='film-poster-ahref').get('href', '').strip()
             
+            # Extracting the film ID
+            film_id = film_url.split('/')[-1]  # Get the last component of the URL as ID
+            
             # Additional film information
             detail_section = film.find_next('div', class_='film-detail')
             film_name = detail_section.find('h3', class_='film-name').get_text(strip=True)
@@ -46,6 +49,7 @@ def list_api():
                 "title": film_title,
                 "url": film_url,
                 "poster": poster_img,
+                "id": film_id,  # Added the film ID
                 "name": film_name,
                 "type": film_type,
                 "duration": duration,
@@ -60,3 +64,4 @@ def list_api():
 
 if __name__ == '__main__':
     app.run(debug=True)
+        
