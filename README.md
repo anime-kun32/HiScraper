@@ -12,14 +12,15 @@ This is a Python-based web scraper deployed on Vercel. It scrapes data from a sp
 - Response:
   ```json
   {
-    "data": [
-      {
-        "title": "Kite",
-        "url": "/16204",
-        "poster": "https://cdn.noitatnemucod.net/thumbnail/300x400/100/746d993e054e200c4e3148dd90df225c.jpg",
-        "name": "Kite",
-        "type": "OVA",
-        "duration": "52m"
+     "data": [
+    {
+      "duration": "52m",
+      "id": "kite-16204",
+      "name": "Kite",
+      "poster": "https://cdn.noitatnemucod.net/thumbnail/300x400/100/746d993e054e200c4e3148dd90df225c.jpg",
+      "title": "Kite",
+      "type": "OVA",
+      "url": "/watch/kite-16204"
       }
     ]
   }
