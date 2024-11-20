@@ -20,7 +20,7 @@ def list_api():
     try:
         # Send a GET request to the target URL
         response = requests.get(target_url)
-        response.raise_for_()  # Raise an exception for HTTP errors
+        response.raise_for_status()  # Raise an exception for HTTP errors
         
         # Parse the HTML content
         soup = BeautifulSoup(response.text, 'html.parser')
@@ -35,7 +35,7 @@ def list_api():
             film_title = film.find('a', class_='film-poster-ahref').get('title', '').strip()
             film_url = film.find('a', class_='film-poster-ahref').get('href', '').strip()
             
-            # Extracting the film ID
+            # Extracting the anime ID
             film_id = film_url.split('/')[-1]  # Get the last component of the URL as ID
             
             # Additional film information
@@ -44,30 +44,15 @@ def list_api():
             film_type = detail_section.find('span', class_='fdi-item').get_text(strip=True)
             duration = detail_section.find('span', class_='fdi-duration').get_text(strip=True)
 
-            # Extract the rating
-            rating_element = detail_section.find('div', class_='tick tick-rate')
-            rating = rating_element.get_text(strip=True) if rating_element else None
-            
-            # Extract the number of subbed episodes
-           _element = detail_section.find('div', class_='tick-item tick-sub')
-            sub_count = sub_element.get_text(strip=True) if sub_element else None
-            
-            # Extract the number of dubbed episodes
-            dub_element = detail_section.find('div', class_='tick-item tick-dub')
-            dub_count = dub_element.get_text(strip=True) if dub_element else None
-            
             # Append the data to the list
             films.append({
                 "title": film_title,
                 "url": film_url,
                 "poster": poster_img,
-                "id": film_id,  # Added the film ID
+                "id": film_id,  
                 "name": film_name,
                 "type": film_type,
                 "duration": duration,
-                "rating": rating,
-                "sub_count": sub_count,
-                "dub_count": dub_count,
             })
         
         # Return the scraped data as JSON
