@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Import Flask-CORS
 import requests
 from bs4 import BeautifulSoup
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 # Welcome endpoint
 @app.route('/api/list', methods=['GET'])
@@ -55,7 +57,7 @@ def list_api():
                 "duration": duration,
             })
         
-        # Return the scraped data as JSON
+        # Retu the scraped data as JSON
         return jsonify({"data": films})
     
     except Exception as e:
@@ -63,4 +65,4 @@ def list_api():
 
 
 if __name__ == '__main__':
-    app.run(debug=True) configure cors to this code please 
+    app.run(debug=True)
