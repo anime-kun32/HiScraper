@@ -4,7 +4,7 @@ This is a Python-based web scraper deployed on Vercel. It scrapes data from a [h
 
 ## API Endpoints
 
-- **GET /api/list**: Base endpoint with a welcome message.
+- **GET /api/list**: Base endpoint
 - **GET /api/list?letter={letter}&page={page}**: Scrapes data for the given letter and page.
 
 ### Example
