@@ -1,6 +1,6 @@
 # Scraper API
 
-This is a Python-based web scraper deployed on Vercel. It scrapes data from a specific URL, parses the HTML, and returns the data as JSON.
+This is a Python-based web scraper deployed on Vercel. It scrapes data from a [hianime.to's](https://hianime.to) a-z list ,  parses the HTML, and returns the data as JSON.
 
 ## API Endpoints
 
@@ -24,3 +24,7 @@ This is a Python-based web scraper deployed on Vercel. It scrapes data from a sp
       }
     ]
   }
+#### Disclaimer 
+
+This project is just a practise , it is not in anyway affliated with hianime or any anime studios . I made this porject to practise python
+
