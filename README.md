@@ -24,7 +24,7 @@ This is a Python-based web scraper deployed on Vercel. It scrapes data from a [h
       }
     ]
   }
-# Disclaimer 
+# Disclaimer !!!!
 
-This project is just a practise , it is not in anyway affliated with hianime or any anime studios . I made this porject to practise python
+This project is just a practise , it is not in anyway affiliated with hianime or any anime studios . I made this project to practise python . 
 
