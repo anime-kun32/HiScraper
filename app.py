@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Import Flask-CORS
 import requests
 from bs4 import BeautifulSoup
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 # Welcome endpoint
 @app.route('/api/list', methods=['GET'])
@@ -27,9 +29,7 @@ def list_api():
         
         # Extract the required data
         films = []
-        film_elements = soup.find_all('div', class_='film-poster')  # Locate each film block
-
-        for film in film_elements:
+        film_elements = soup.find_all('div', class_='film-poster')  for film in film_elements:
             # Film poster and details
             poster_img = film.find('img', class_='film-poster-img').get('data-src', '').strip()
             film_title = film.find('a', class_='film-poster-ahref').get('title', '').strip()
@@ -60,7 +60,6 @@ def list_api():
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 if __name__ == '__main__':
     app.run(debug=True)
