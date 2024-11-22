@@ -1,4 +1,4 @@
-# Hianime-a-z-list-scraper
+# HiScraper
 
 This is a Python-based web scraper deployed on Vercel. It scrapes data from a [hianime.to's](https://hianime.to) a-z list ,  parses the HTML, and returns the data as JSON.
 
